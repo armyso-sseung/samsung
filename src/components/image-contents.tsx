@@ -15,16 +15,16 @@ const ImageContents = ({ num, onCloseCall }: Props) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setVisible((prev) => !prev);
-    }, 500); // 0.5초마다 깜빡이기
+    }, 600); // 0.5초마다 깜빡이기
 
     setTimeout(() => {
       clearInterval(interval);
       setVisible(true); // 마지막에는 이미지가 보이도록 설정
-    }, 7000); // 7초 후 멈춤
+    }, 4000); // 7초 후 멈춤
 
     setTimeout(() => {
       onCloseCall();
-    }, 10000);
+    }, 7000);
 
     return () => clearInterval(interval);
   }, [onCloseCall]);
@@ -42,7 +42,7 @@ const ImageContents = ({ num, onCloseCall }: Props) => {
             style={{ opacity: visible ? 1 : 0 }}
           />
           <span
-            className="absolute inset-0 flex top-[23vh] justify-center text-white text-[450px] font-bold  transition-opacity duration-300"
+            className="absolute inset-0 flex top-[24vh] justify-center text-white text-[200px] font-bold  transition-opacity duration-300"
             style={{ opacity: visible ? 1 : 0 }}
           >
             {numRef.current}
