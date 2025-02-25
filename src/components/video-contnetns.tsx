@@ -28,20 +28,22 @@ const VideoContntns = () => {
         const value = Number(`${num ?? ""}${event.key}`);
         setNum(value);
       } else if (event.key === "Enter" && num) {
-        if (synth) {
-          const utterance = new SpeechSynthesisUtterance(
-            `${num}번 고객님 담당 서비스 창구로 와주세요.`,
-          );
+        // if (synth) {
+        //   const utterance = new SpeechSynthesisUtterance(
+        //     `${num}번 고객님 담당 서비스 창구로 와주세요.`,
+        //   );
+        //
+        //   utterance.rate = 0.95;
+        //   utterance.voice = voice!;
+        //
+        //   synth?.speak(utterance);
+        // } else {
+        //   const audio = new Audio(`/sound/${num}.mp3`);
+        //   audio?.play();
+        // }
 
-          utterance.rate = 0.95;
-          utterance.voice = voice!;
-
-          synth?.speak(utterance);
-        } else {
-          const audio = new Audio(`/sound/${num}.mp3`);
-          audio?.play();
-        }
-
+        const audio = new Audio(`/sound/${num}.mp3`);
+        audio?.play();
         videoRef.current?.pause();
         setOpen(true);
       } else if (event.key === "a") {
