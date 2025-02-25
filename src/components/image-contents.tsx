@@ -42,7 +42,7 @@ const ImageContents = ({ num, onCloseCall }: Props) => {
             style={{ opacity: visible ? 1 : 0 }}
           />
           <span
-            className="absolute inset-0 flex top-[23vh] justify-center text-white text-[400px] font-bold  transition-opacity duration-300"
+            className="absolute inset-0 flex top-[24vh] justify-center text-white text-[400px] font-bold  transition-opacity duration-300"
             style={{ opacity: visible ? 1 : 0 }}
           >
             {numRef.current}
