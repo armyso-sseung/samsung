@@ -38,7 +38,7 @@ const VideoContntns = () => {
         synth?.speak(utterance);
         videoRef.current?.pause();
         setOpen(true);
-      } else if (event.key === "Escape") {
+      } else if (event.key === "a") {
         setNum(undefined);
       }
     },

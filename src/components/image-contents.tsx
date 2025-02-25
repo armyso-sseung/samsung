@@ -36,13 +36,13 @@ const ImageContents = ({ num, onCloseCall }: Props) => {
           <Image
             src="/img/person.png"
             alt="person"
-            width={2160}
-            height={3840}
+            width={1080}
+            height={1920}
             className="w-full h-full object-cover transition-opacity duration-300"
             style={{ opacity: visible ? 1 : 0 }}
           />
           <span
-            className="absolute inset-0 flex top-[26vh] justify-center text-white text-[750px] font-bold  transition-opacity duration-300"
+            className="absolute inset-0 flex top-[23vh] justify-center text-white text-[450px] font-bold  transition-opacity duration-300"
             style={{ opacity: visible ? 1 : 0 }}
           >
             {numRef.current}
