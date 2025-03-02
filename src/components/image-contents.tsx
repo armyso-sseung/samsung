@@ -21,9 +21,9 @@ const ImageContents = ({ num, onCloseCall }: Props) => {
       setVisible(true); // 마지막에는 이미지가 보이도록 설정
     }, 4000); // 7초 후 멈춤
 
-    // setTimeout(() => {
-    //   onCloseCall();
-    // }, 7000);
+    setTimeout(() => {
+      onCloseCall();
+    }, 7000);
 
     return () => clearInterval(interval);
   }, [onCloseCall]);
