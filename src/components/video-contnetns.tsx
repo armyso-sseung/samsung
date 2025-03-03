@@ -2,8 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ImageContents from "@/components/image-contents";
-import Errors from "undici-types/errors";
-import NotSupportedError = Errors.NotSupportedError;
 
 const VideoContntns = () => {
   const synth = useMemo(() => {
@@ -24,12 +22,17 @@ const VideoContntns = () => {
 
   const handleOpenCall = useCallback(
     (event: KeyboardEvent) => {
+      // 호출 중 입력 제한
       if (open) return;
 
+      // 번호입력
       if (event.key.match(/[0-9]/)) {
         const value = Number(`${num ?? ""}${event.key}`);
         setNum(value);
-      } else if (event.key === "Enter" && num) {
+      }
+
+      // 입력완료
+      if (event.key === "Enter" && num) {
         // TODO: TTS 확인 필요
         // if (synth) {
         //   const utterance = new SpeechSynthesisUtterance(
@@ -45,31 +48,31 @@ const VideoContntns = () => {
         //   audio?.play();
         // }
 
-        try {
-          const audio = new Audio(`/sound/${num}.mp3`);
-          audio?.play();
-        } catch (error) {
-          if (error instanceof NotSupportedError) {
-            const utterance = new SpeechSynthesisUtterance(
-              `${num}번 고객님 담당 서비스 창구로 와주세요.`,
-            );
+        const audio = new Audio(`/sound/${num}.mp3`);
+        audio?.play().catch(() => {
+          // 음성 파일 없을 시 TTS
+          const utterance = new SpeechSynthesisUtterance(
+            `${num}번 고객님 담당 서비스 창구로 와주세요.`,
+          );
 
-            utterance.rate = 0.95;
-            utterance.voice = voice!;
+          utterance.rate = 0.95;
+          utterance.voice = voice!;
 
-            synth?.speak(utterance);
-          }
-        } finally {
-          videoRef.current?.pause();
-          setOpen(true);
-        }
-      } else if (event.key === "a") {
+          synth?.speak(utterance);
+        });
+
+        // 비디오 멈춤
+        videoRef.current?.pause();
+        setOpen(true);
+      }
+
+      // 실행취소
+      if (event.key === "a") {
         setNum(undefined);
       }
     },
     [num, open, synth, voice],
   );
-
   useEffect(() => {
     window.addEventListener("keydown", handleOpenCall);
     return () => {
