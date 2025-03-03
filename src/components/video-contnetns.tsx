@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ImageContents from "@/components/image-contents";
+import Errors from "undici-types/errors";
+import NotSupportedError = Errors.NotSupportedError;
 
 const VideoContntns = () => {
   const synth = useMemo(() => {
@@ -28,6 +30,7 @@ const VideoContntns = () => {
         const value = Number(`${num ?? ""}${event.key}`);
         setNum(value);
       } else if (event.key === "Enter" && num) {
+        // TODO: TTS 확인 필요
         // if (synth) {
         //   const utterance = new SpeechSynthesisUtterance(
         //     `${num}번 고객님 담당 서비스 창구로 와주세요.`,
@@ -42,10 +45,24 @@ const VideoContntns = () => {
         //   audio?.play();
         // }
 
-        const audio = new Audio(`/sound/${num}.mp3`);
-        audio?.play();
-        videoRef.current?.pause();
-        setOpen(true);
+        try {
+          const audio = new Audio(`/sound/${num}.mp3`);
+          audio?.play();
+        } catch (error) {
+          if (error instanceof NotSupportedError) {
+            const utterance = new SpeechSynthesisUtterance(
+              `${num}번 고객님 담당 서비스 창구로 와주세요.`,
+            );
+
+            utterance.rate = 0.95;
+            utterance.voice = voice!;
+
+            synth?.speak(utterance);
+          }
+        } finally {
+          videoRef.current?.pause();
+          setOpen(true);
+        }
       } else if (event.key === "a") {
         setNum(undefined);
       }
